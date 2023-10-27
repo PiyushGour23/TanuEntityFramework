@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TanuEntityFramework;
+using TanuEntityFramework.Container;
+using TanuEntityFramework.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TanuDbContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("sqlserver")));
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

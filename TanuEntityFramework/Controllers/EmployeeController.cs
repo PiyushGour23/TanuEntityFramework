@@ -34,20 +34,5 @@ namespace TanuEntityFramework.Controllers
                 throw;
             }
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> AddEmployee(Employee emp)
-        //{
-        //    try
-        //    {
-        //        await _context.Employees.AddAsync(emp);
-        //        await _context.SaveChangesAsync();
-        //        return Ok(emp);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw;
-        //    }
-        //}
     }
 }
