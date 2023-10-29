@@ -7,5 +7,7 @@ namespace TanuEntityFramework.Interface
         List<User> GetAll();
 
         Task<User> AddUser(User user);
+        Task<User> UpdateAsync(int id, User user);
+        Task<string> DeleteAsync(int id);
     }
 }
