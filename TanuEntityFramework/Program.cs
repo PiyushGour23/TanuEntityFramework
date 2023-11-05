@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using TanuEntityFramework;
 using TanuEntityFramework.Container;
@@ -13,6 +14,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TanuDbContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("sqlserver")));
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddCors(p => p.AddPolicy("tanupolicy", build =>
+{
+    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}
+));
+
+builder.Services.AddRateLimiter(_ => _.AddFixedWindowLimiter(policyName: "FixedWindow", options =>
+{
+    options.Window = TimeSpan.FromSeconds(10);
+    options.PermitLimit = 1;
+    options.QueueLimit = 0;
+    options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+}).RejectionStatusCode=401);
 
 var app = builder.Build();
 
@@ -28,5 +42,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors("tanupolicy");
+app.UseRateLimiter();
 
 app.Run();

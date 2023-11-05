@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using TanuEntityFramework.Interface;
 using TanuEntityFramework.Model;
@@ -8,6 +10,8 @@ using TanuEntityFramework.Model.DTO;
 
 namespace TanuEntityFramework.Controllers
 {
+    [EnableRateLimiting("FixedWindow")]
+    [EnableCors("tanupolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
